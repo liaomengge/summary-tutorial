@@ -1,6 +1,6 @@
 ### Tomcat8 优化
 
-#### 1. 优化JVM
+#### **1. 优化JVM**
 > 
     1.1 内存优化
     调整catalina.sh中JAVA_OPTS变量的设置，如下：
@@ -46,7 +46,7 @@
     -XX:+UseCMSCompactAtFullCollection：打开对年老代的压缩。可能会影响性能，但是可以消除碎片 
     
     
-#### 2. 优化server.xml
+#### **2. 优化server.xml**
 > 
     2.1 禁用Tomcat管理界面
 >    
@@ -60,12 +60,7 @@
 >   
     tomcat默认 开启了对war热部署。为了防止被植入木马恶意攻击，我们要 关闭war包自动部署。关闭自动加载最新代码（设置reloadable）
 >   
-    >> 
-    ```
-    <Host name="localhost"  appBase="webapps"  
-unpackWARs="false" autoDeploy="false"   
-reloadable="false">
-    ```
+    <Host name="localhost"  appBase="webapps"  unpackWARs="false"  autoDeploy="false" reloadable="false">
 >
     2.3 更改Tomcat关闭指令
 >   
