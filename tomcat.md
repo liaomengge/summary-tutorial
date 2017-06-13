@@ -140,6 +140,19 @@
 >    
     默认tomcat是root身份运行的，这样不安全。不要使用root用户启动tomcat。Java程序与C程序不同。nginx,httpd使用root用户启动守护80端口，子进程/线程会通过setuid(),setgid()两个函数切换到普通用户。即父进程所有者是root用户，子进程与多线程所有者是一个非root用户，这个用户没有shell，无法通过ssh与控制台登陆系统，Java的JVM是与系统无关的，是建立在OS之上的，你使用什么用户启动Tomcat，那麽Tomcat就会继承该所有者的权限。为了防止 Tomcat 被植入 web shell程序后，可以修改项目文件。因此我们要将 Tomcat 和项目的属主做分离，这样子，即便被搞，他也无法创建和编辑项目文件。 
     
+#### **补充：**
+Tomcat常见命令：  
+1. 直接启动  
+./startup.sh  
+2. 作为服务启动  
+nohup ./startup.sh &  
+3. 控制台动态输出方式启动  
+./catalina.sh run  
+
+**三种启动方式的比较：**  
+1-3 启动有弊端。当客服端连接断开的时候，tomcat服务也会立即停止，通过方式二可以作为Linux服务一直运行  
+1-2 启动时，其日志会写到相应的日志文件中，而不能动态地查看tomcat控制台的输出信息与错误情况，通过方式三可以以控制台模式启动tomcat服务并查看控制台输出信息
+    
 #### 附：    
 - [参考文档一](http://transcoder.tradaquan.com/from=844b/bd_page_type=1/ssid=0/uid=0/pu=usm%401%2Csz%401320_2001%2Cta%40iphone_1_10.3_3_603/baiduid=1720759AD4690EA321619F3ACD0122C0/w=0_10_/t=iphone/l=3/tc?ref=www_iphone&lid=14214402601153136240&order=9&fm=alop&h5ad=1&srd=1&dict=32&tj=www_normal_9_0_10_title&url_mf_score=5&vit=osres&m=8&cltj=cloud_title&asres=1&title=Tomcat%E8%B0%83%E4%BC%98-%E5%A4%AA%E6%B8%85-%E5%8D%9A%E5%AE%A2%E5%9B%AD&w_qd=IlPT2AEptyoA_yilI5qeGjVkf910miV3s_&sec=21468&di=9fb4eb1e19ca05ce&bdenc=1&tch=124.81.316.1802.0.0&nsrc=IlPT2AEptyoA_yixCFOxXnANedT62v3IEQGG_ytK1DK6mlrte4viZQRAWSHqLzrIBVWwdoTKtRwJuHSdAT-il17&eqid=c543b3dac81f08001000000659315538&wd=&clk_info=%7B%22srcid%22%3A%221599%22%2C%22tplname%22%3A%22www_normal%22%2C%22t%22%3A1496478439702%2C%22sig%22%3A%2254801%22%2C%22xpath%22%3A%22div-div-div-a-p%22%7D)
 - [参考文档二](http://m.blog.csdn.net/article/details?id=51362676)
